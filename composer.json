@@ -1,0 +1,29 @@
+{
+    "name" : "php-lce",
+    "description" : "A PHP library that provides an interface to the LCE web services",
+    "homepage" : "https://github.com/lce/php-lce",
+    "license" : "MIT",
+    "type" : "library",
+    "keywords" : [],
+    "version" : "0.0.1-dev",    
+    "authors": [
+        {
+            "name" : "Florent Piteau",
+            "homepage" : "https://lce.io"
+        },
+        {
+            "name" : "Thomas Belliard",
+            "homepage" : "https://lce.io"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "nategood/httpful": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-0": { "Lce": "src/" }
+    }
+}
