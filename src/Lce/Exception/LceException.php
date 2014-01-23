@@ -7,7 +7,7 @@ use \Lce\Exception\AccountDisabledException;
 use \Lce\Exception\ConnectionErrorException;
 
 class LceException extends \Exception {
-  public function build($uri, $response) {   
+  public static function build($uri, $response) {   
     $message = $uri.' | ';
     if(property_exists($response->body, 'error')){
       $error = $response->body->error;
