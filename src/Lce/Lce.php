@@ -5,6 +5,7 @@ namespace Lce;
 use Lce\Exception\ConnectionErrorException;
 use Lce\Exception\NotLceException;
 use Lce\Exception\LceException;
+use Lce\Resource\Product;
 
 class Lce {
   
@@ -28,7 +29,11 @@ class Lce {
   }
 
   public function products() {    
-    echo $this->get('products');
+    $products = $this->get('products');
+    foreach($products as $key => $product){
+      $products[$key] = new Product($product);
+    }
+    return $products;
   }
 
   public function __toString() {
@@ -45,7 +50,7 @@ class Lce {
 
       if(!$response->headers['lce-env']) throw new NotLceException($uri." | This server does not provide the lce.io API.");
       if($response->hasErrors()) throw LceException::build($uri, $response);
-      return $response;
+      return $response->body->data;
     } catch (\Httpful\Exception\ConnectionErrorException $e) {
       throw new ConnectionErrorException($uri.' | '.$e->getMessage());
     }    
