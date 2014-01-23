@@ -3,6 +3,7 @@
 namespace Lce;
 
 use Lce\Exception\ConnectionErrorException;
+use Lce\Exception\NotLceException;
 use Lce\Exception\LceException;
 
 class Lce {
@@ -40,12 +41,11 @@ class Lce {
       $response = \Httpful\Request::get($uri)
         ->authenticateWith($this->login, $this->password)
         ->expectsJson()
-        ->send();        
-      if($response->hasErrors()){
-        throw LceException::build($uri, $response);
-      } else {
-        return $response;
-      }
+        ->send();
+
+      if(!$response->headers['lce-env']) throw new NotLceException($uri." | This server does not provide the lce.io API.");
+      if($response->hasErrors()) throw LceException::build($uri, $response);
+      return $response;
     } catch (\Httpful\Exception\ConnectionErrorException $e) {
       throw new ConnectionErrorException($uri.' | '.$e->getMessage());
     }    
