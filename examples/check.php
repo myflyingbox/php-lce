@@ -3,11 +3,11 @@ require(__DIR__ . '/../bootstrap.php');
 
 use \Lce\Lce;
 
-$server = 'https://test.lce.io';
+$env = 'staging';
 $login = 'login';
 $password = 'password';
 
-$lce = new Lce($login, $password, $server);
+$lce = new Lce($login, $password, $env);
 $throw_exceptions = false;
 if($lce->check($throw_exceptions)){
   echo "Connected to ".$server." with account ".$login." successfully.\n"; 

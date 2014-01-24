@@ -4,19 +4,29 @@ namespace Lce;
 
 use Lce\Exception\ConnectionErrorException;
 use Lce\Exception\NotLceException;
+use Lce\Exception\UnknownEnvironmentException;
 use Lce\Exception\LceException;
 use Lce\Resource\Product;
 
 class Lce {
   
   const VERSION = '0.0.1-dev';
-  public $login, $server, $version;
+  public $login, $server, $version, $env;
+  public $servers = array(
+    "development" => "http://localhost:9000",
+    "staging" => "https://test.lce.io",
+    "production" => "https://api.lce.io"
+  );
   private $password;
   
-  public function __construct($login, $password, $server = 'https://test.lce.io', $version = '1') {
+  public function __construct($login, $password, $env = 'staging', $version = '1') {
+    if(!array_key_exists($env, $this->servers)){
+      throw new UnknownEnvironmentException($env." is not a valid environment. Use \"staging\" or \"production\".");
+    }
+    $this->env=$env;    
+    $this->server=$this->servers[$this->env];        
     $this->login=$login;
     $this->password=$password;
-    $this->server=$server;    
     $this->version=$version;    
   }
 
