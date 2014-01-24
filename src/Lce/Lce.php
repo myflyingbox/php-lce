@@ -20,11 +20,12 @@ class Lce {
     $this->version=$version;    
   }
 
-  public function check() {    
+  public function check($throw_exceptions = false) {    
     try {
       return $this->get() == true;
     } catch (LceException $e) {
-      error_log($e->getMessage());
+      error_log($e->getMessage());    
+      if($throw_exceptions===true) throw $e;
     }      
   }
 
