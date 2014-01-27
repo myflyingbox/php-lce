@@ -1,7 +1,7 @@
 php-lce
 =======
 
-A PHP library that provides an interface to the LCE web services
+A PHP library that provides an interface to the LCE web services. https://lce.io
 
 ## Installation
 
