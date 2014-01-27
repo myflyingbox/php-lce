@@ -2,12 +2,10 @@
 require(__DIR__ . '/../bootstrap.php');
 
 use \Lce\Lce;
+use \Lce\Resource\Quote;
 
-$env = 'staging';
-$login = 'login';
-$password = 'password';
+Lce::configure('login', 'password', 'staging');
 
-$lce = new Lce($login, $password, $env);
 $params = array(
   'shipper' => array('postal_code' => '31300','country' => 'FR'),
   'recipient' => array('postal_code' => '06800','country' => 'FR','is_a_company' => true),
@@ -17,5 +15,5 @@ $params = array(
   )
 );
 
-$quote = $lce->quote($params);
+$quote = Quote::request($params);
 print_r($quote);
