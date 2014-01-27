@@ -10,6 +10,6 @@ $password = 'password';
 $lce = new Lce($login, $password, $env);
 $throw_exceptions = false;
 if($lce->check($throw_exceptions)){
-  echo "Connected to ".$server." with account ".$login." successfully.\n"; 
+  echo "Connected to ".$lce->server." with account ".$login." successfully.\n"; 
 }
 

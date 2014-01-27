@@ -11,7 +11,10 @@ class LceException extends \Exception {
     $message = $uri.' | ';
     if(property_exists($response->body, 'error')){
       $error = $response->body->error;
-      $message .= $error->message.' '.implode(' ',$error->details);
+      $message .= $error->message;
+      if(isset($error->details) && !empty($error->details)){
+       $message .= ' '.implode(' ',$error->details);
+      }
       $type = $error->type;
     } else {
       $message .= 'Unknown Error. Are you using the correct server ? protocol ? port ? : '.strtok($response->raw_headers, "\n");

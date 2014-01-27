@@ -7,6 +7,7 @@ use Lce\Exception\NotLceException;
 use Lce\Exception\UnknownEnvironmentException;
 use Lce\Exception\LceException;
 use Lce\Resource\Product;
+use Lce\Resource\Quote;
 
 class Lce {
   
@@ -47,26 +48,52 @@ class Lce {
     return $products;
   }
 
+  public function quote($params) {        
+    $quote = $this->post('quotes',array('quote' => $params));
+    $quote = new Quote($quote);
+    return $quote;
+  }
+
   public function __toString() {
     return 'php-lce '.$this::VERSION.' connecting to '.$this->server.' with '.$this->login."\n";
   }  
 
   private function get($resource = NULL) {
     $uri = $this->base_uri($resource);
+    $response = $this->request('get', $uri);
+    return $response;
+  }
+  
+  private function post($resource, $params) {
+    $uri = $this->base_uri($resource);
+    $response = $this->request('post', $uri, $params);
+    return $response;
+  }  
+
+  private function request($method, $uri, $params = NULL){
+    $method = constant('\Httpful\Http::'.strtoupper($method));
     try {
-      $response = \Httpful\Request::get($uri)
+
+      $template = \Httpful\Request::init($method)
+        ->uri($uri)
         ->authenticateWith($this->login, $this->password)
         ->expectsJson()
-        ->send();
+        ->sendsJson();
 
-      if(!$response->headers['lce-env']) throw new NotLceException($uri." | This server does not provide the lce.io API.");
+      if($params && !empty($params)){
+        $template = $template->body($params);
+      }
+      
+      $response = $template->send();
+      
+#      if(!$response->headers['lce-env']) throw new NotLceException($uri." | This server does not provide the lce.io API.");
       if($response->hasErrors()) throw LceException::build($uri, $response);
       return $response->body->data;
     } catch (\Httpful\Exception\ConnectionErrorException $e) {
       throw new ConnectionErrorException($uri.' | '.$e->getMessage());
-    }    
+    }      
   }
-
+  
   private function base_uri($resource = NULL) {
     $uri = $this->server;
     if($resource) $uri .= '/v'.$this->version.'/'.$resource;
