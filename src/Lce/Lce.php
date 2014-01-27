@@ -3,6 +3,7 @@
 namespace Lce;
 
 use Lce\Connection;
+use \Lce\Exception\LceException;
 
 class Lce {
   
