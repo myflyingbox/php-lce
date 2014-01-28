@@ -27,9 +27,9 @@ class Connection {
     $this->version=$version;    
   }
 
-  public function get($resource = NULL,$id = NULL) {
-    $uri = $this->base_uri($resource, $id);
-    $response = $this->request('get', $uri);
+  public function get($resource = NULL, $id = NULL, $action = NULL, $format = NULL, $params = NULL) {
+    $uri = $this->base_uri($resource, $id, $action, $format);
+    $response = $this->request('get', $uri, $params, $format);
     return $response;
   }
   
@@ -43,34 +43,48 @@ class Connection {
     return $this->servers[$this->env];
   }  
 
-  private function request($method, $uri, $params = NULL){
+  private function request($method, $uri, $params = NULL, $format = NULL){
     $method = constant('\Httpful\Http::'.strtoupper($method));
     try {
 
       $template = \Httpful\Request::init($method)
-        ->uri($uri)
-        ->authenticateWith($this->login, $this->password)
-        ->expectsJson()
-        ->sendsJson();
+        ->authenticateWith($this->login, $this->password);
+
+      if(!$format || $format == 'json'){
+        $template = $template->expectsJson()->sendsJson();      
+      }
+
 
       if($params && !empty($params)){
-        $template = $template->body($params);
+        if($method == \Httpful\Http::GET){
+          $uri = $uri."?".http_build_query($params);
+        } else {
+          $template = $template->body($params);
+        }
       }
       
+      $template = $template->uri($uri);      
       $response = $template->send();
       
 #      if(!$response->headers['lce-env']) throw new NotLceException($uri." | This server does not provide the lce.io API.");
       if($response->hasErrors()) throw LceException::build($uri, $response);
-      return $response->body->data;
+      if(!$format || $format == 'json'){
+        return $response->body->data;
+      } else {
+        return $response->body;
+      }
+
     } catch (\Httpful\Exception\ConnectionErrorException $e) {
       throw new ConnectionErrorException($uri.' | '.$e->getMessage());
     }      
   }
   
-  private function base_uri($resource = NULL, $id = NULL) {
+  private function base_uri($resource = NULL, $id = NULL, $action = NULL, $format = NULL) {
     $uri = $this->server();
     if($resource) $uri .= '/v'.$this->version.'/'.$resource;
     if($id) $uri .= '/'.$id;
+    if($action) $uri .= '/'.$action;
+    if($format) $uri .= '.'.$format;
     return $uri;
   }
   
