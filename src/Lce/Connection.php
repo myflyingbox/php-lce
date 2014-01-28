@@ -27,8 +27,8 @@ class Connection {
     $this->version=$version;    
   }
 
-  public function get($resource = NULL) {
-    $uri = $this->base_uri($resource);
+  public function get($resource = NULL,$id = NULL) {
+    $uri = $this->base_uri($resource, $id);
     $response = $this->request('get', $uri);
     return $response;
   }
@@ -67,9 +67,10 @@ class Connection {
     }      
   }
   
-  private function base_uri($resource = NULL) {
+  private function base_uri($resource = NULL, $id = NULL) {
     $uri = $this->server();
     if($resource) $uri .= '/v'.$this->version.'/'.$resource;
+    if($id) $uri .= '/'.$id;
     return $uri;
   }
   

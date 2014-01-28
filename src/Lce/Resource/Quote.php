@@ -10,5 +10,11 @@ class Quote extends Resource {
     $quote = Lce::$connection->post('quotes',array('quote' => $params));
     return new self($quote);    
   }
+  
+  public static function find($id) {
+    $quote = Lce::$connection->get('quotes', $id);
+    return new self($quote);    
+  }  
+   
 }
 
