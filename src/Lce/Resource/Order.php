@@ -18,6 +18,15 @@ class Order extends Resource {
     return new self($order);    
   }  
 
+  public static function findAll($page = 1) {
+    if($page <= 0) $page = 1;
+    $orders = Lce::$connection->get('orders', NULL, NULL, NULL, array('page' => $page));
+    foreach($orders as $key => $order){
+      $orders[$key] = new self($order);
+    }
+    return $orders;
+  }
+
   public function labels() {
     $labels = Lce::$connection->get('orders', $this->id, 'labels', 'pdf');
     return $labels; 
