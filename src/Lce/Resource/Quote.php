@@ -27,6 +27,15 @@ class Quote extends Resource {
     return new self($quote);    
   }
   
+  public static function findAll($page = 1) {
+    if($page <= 0) $page = 1;
+    $quotes = Lce::$connection->get('quotes', NULL, NULL, NULL, array('page' => $page));
+    foreach($quotes as $key => $quote){
+      $quotes[$key] = new self($quote);
+    }
+    return $quotes;
+  }
+  
   public static function find($id) {
     $quote = Lce::$connection->get('quotes', $id);
     return new self($quote);    

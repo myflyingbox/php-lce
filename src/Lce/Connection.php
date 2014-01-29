@@ -69,11 +69,19 @@ class Connection {
 #      if(!$response->headers['lce-env']) throw new NotLceException($uri." | This server does not provide the lce.io API.");
       if($response->hasErrors()) throw LceException::build($uri, $response);
       if(!$format || $format == 'json'){
-        return $response->body->data;
+      
+        if(isset($response->body->count)) $count = $response->body->count;
+        if(isset($response->body->page)) $page = $response->body->page;
+        if(isset($response->body->per_page)) $per_page = $response->body->per_page;
+        if(isset($count) && isset($page) && isset($per_page)){
+          $data = new PaginatedArray($response->body->data, $page, $per_page, $count);          
+        } else {
+          $data = $response->body->data;
+        }
       } else {
-        return $response->body;
+        $data = $response->body;
       }
-
+      return $data;
     } catch (\Httpful\Exception\ConnectionErrorException $e) {
       throw new ConnectionErrorException($uri.' | '.$e->getMessage());
     }      
