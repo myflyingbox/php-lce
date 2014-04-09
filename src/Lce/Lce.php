@@ -12,7 +12,7 @@ class Lce {
   public static $connection;
 
   public static function configure($login, $password, $env = 'staging', $version = '1') {
-    self::$connection = new Connection($login, $password, $env, $version);
+    return self::$connection = new Connection($login, $password, $env, $version);
   }
   
   public static function login(){

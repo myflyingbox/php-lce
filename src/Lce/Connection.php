@@ -9,7 +9,7 @@ use Lce\Exception\LceException;
 
 class Connection {
   
-  public $login, $version, $env;
+  public $login, $version, $env, $application = 'php-lce', $application_version = '0.0.1' ;
   public $servers = array(
     "development" => "http://localhost:9000",
     "staging" => "https://test.lce.io",
@@ -49,6 +49,14 @@ class Connection {
 
       $template = \Httpful\Request::init($method)
         ->authenticateWith($this->login, $this->password);
+
+      if($this->application){
+        $template = $template->addHeader('Lce-Origin-Application', $this->application);
+      }
+
+      if($this->application_version){
+        $template = $template->addHeader('Lce-Origin-Version', $this->application_version);        
+      }
 
       if(!$format || $format == 'json'){
         $template = $template->expectsJson()->sendsJson();      
