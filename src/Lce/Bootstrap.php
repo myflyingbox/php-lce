@@ -19,12 +19,11 @@ class Bootstrap
 
     private static function _autoload($base, $classname)
     {
-        $parts      = explode(self::NS_GLUE, $classname);
-        $path       = $base . self::DIR_GLUE . implode(self::DIR_GLUE, $parts) . '.php';
+        $parts = explode(self::NS_GLUE, $classname);
+        $path = $base.self::DIR_GLUE.implode(self::DIR_GLUE, $parts).'.php';
 
         if (file_exists($path)) {
-            require_once($path);
+            require_once $path;
         }
     }
 }
-

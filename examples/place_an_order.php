@@ -1,5 +1,6 @@
 <?php
-require(__DIR__ . '/../bootstrap.php');
+
+require __DIR__.'/../bootstrap.php';
 
 use \Lce\Lce;
 use \Lce\Resource\Quote;
@@ -17,8 +18,8 @@ $params = array(
     'street' => "street line 1\nstreet line 2",
     'city' => 'city',
     'state' => 'state',
-    'phone' => '0123456789',    
-    'email' => 'test@emailshipper.com'    
+    'phone' => '0123456789',
+    'email' => 'test@emailshipper.com',
   ),
   'recipient' => array(
     'company' => 'company name',
@@ -26,13 +27,13 @@ $params = array(
     'street' => "street line 1\nstreet line 2",
     'city' => 'city',
     'state' => 'state',
-    'phone' => '0123456789',    
-    'email' => 'test@emailshipper.com'    
+    'phone' => '0123456789',
+    'email' => 'test@emailshipper.com',
   ),
   'parcels' => array(
     array('description' => 'An item', 'value' => 100, 'currency' => 'EUR'),
-    array('description' => 'An other item', 'value' => 20, 'currency' => 'EUR')    
-  )
+    array('description' => 'An other item', 'value' => 20, 'currency' => 'EUR'),
+  ),
 );
 
 $order = Order::place($offer->id, $params);

@@ -2,12 +2,12 @@
 
 namespace Lce\Resource;
 
-class Resource {
-  function __construct($params){
-    foreach ($params as $key => $value)
+class Resource
+{
+    public function __construct($params)
     {
-      $this->$key = $value;
+        foreach ($params as $key => $value) {
+            $this->$key = $value;
+        }
     }
-  }
 }
-

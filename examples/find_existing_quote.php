@@ -1,5 +1,6 @@
 <?php
-require(__DIR__ . '/../bootstrap.php');
+
+require __DIR__.'/../bootstrap.php';
 
 use \Lce\Lce;
 use \Lce\Resource\Quote;
