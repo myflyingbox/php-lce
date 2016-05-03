@@ -9,11 +9,11 @@ use Lce\Exception\LceException;
 
 class Connection
 {
-    public $login, $version, $env, $application = 'php-lce', $application_version = '0.0.1';
+    public $login, $version, $env, $application = 'php-lce', $application_version = '0.0.2';
     public $servers = array(
     'development' => 'http://localhost:9000',
     'staging' => 'https://test.lce.io',
-    'production' => 'https://api.lce.io',
+    'production' => 'https://api.lce.io'
   );
     private $password;
 
@@ -36,10 +36,10 @@ class Connection
         return $response;
     }
 
-    public function post($resource, $params)
+    public function post($resource, $params, $format = null)
     {
         $uri = $this->base_uri($resource);
-        $response = $this->request('post', $uri, $params);
+        $response = $this->request('post', $uri, $params, $format);
 
         return $response;
     }
@@ -62,6 +62,11 @@ class Connection
 
             if ($this->application_version) {
                 $template = $template->addHeader('Lce-Origin-Version', $this->application_version);
+            }
+
+            // Posts are always sending Json, but might receive something else
+            if ($method == \Httpful\Http::POST) {
+                $template = $template->sendsJson();
             }
 
             if (!$format || $format == 'json') {
