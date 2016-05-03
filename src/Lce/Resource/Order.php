@@ -14,6 +14,13 @@ class Order extends Resource
         return new self($order);
     }
 
+    public static function multiple_labels($orders_ids)
+    {
+        $labels = Lce::$connection->post('labels', array('orders_ids' => $orders_ids), 'pdf');
+
+        return $labels;
+    }
+
     public static function find($id)
     {
         $order = Lce::$connection->get('orders', $id);
