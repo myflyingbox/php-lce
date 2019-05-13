@@ -1,7 +1,7 @@
 {
-    "name" : "php-lce",
+    "name" : "myflyingbox/php-lce",
     "description" : "A PHP library that provides an interface to the LCE web services",
-    "homepage" : "https://github.com/lce/php-lce",
+    "homepage" : "https://github.com/myflyingbox/php-lce",
     "license" : "MIT",
     "type" : "library",
     "keywords" : [],
