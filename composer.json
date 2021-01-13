@@ -1,19 +1,19 @@
 {
-    "name" : "php-lce",
-    "description" : "A PHP library that provides an interface to the LCE web services",
-    "homepage" : "https://github.com/lce/php-lce",
+    "name" : "myflyingbox/php-lce",
+    "description" : "A PHP library that provides an interface to the MY FLYING BOX web services",
+    "homepage" : "https://github.com/myflyingbox/php-lce",
     "license" : "MIT",
     "type" : "library",
     "keywords" : [],
-    "version" : "0.0.1-dev",    
+    "version" : "0.0.3",
     "authors": [
         {
             "name" : "Florent Piteau",
-            "homepage" : "https://lce.io"
+            "homepage" : "https://www.myflyingbox.com"
         },
         {
             "name" : "Thomas Belliard",
-            "homepage" : "https://lce.io"
+            "homepage" : "https://www.myflyingbox.com"
         }
     ],
     "require": {

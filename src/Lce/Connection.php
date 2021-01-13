@@ -9,11 +9,11 @@ use Lce\Exception\LceException;
 
 class Connection
 {
-    public $login, $version, $env, $application = 'php-lce', $application_version = '0.0.2';
+    public $login, $version, $env, $application = 'php-lce', $application_version = '0.0.3';
     public $servers = array(
     'development' => 'http://localhost:9000',
-    'staging' => 'https://test.lce.io',
-    'production' => 'https://api.lce.io'
+    'staging' => 'https://test.myflyingbox.com',
+    'production' => 'https://api.myflyingbox.com'
   );
     private $password;
 
@@ -84,7 +84,7 @@ class Connection
             $template = $template->uri($uri);
             $response = $template->send();
 
-#      if(!$response->headers['lce-env']) throw new NotLceException($uri." | This server does not provide the lce.io API.");
+#      if(!$response->headers['lce-env']) throw new NotLceException($uri." | This server does not provide the MY FLYING BOX API.");
       if ($response->hasErrors()) {
           throw LceException::build($uri, $response);
       }
