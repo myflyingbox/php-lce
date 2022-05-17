@@ -16,6 +16,11 @@
             "homepage" : "https://www.myflyingbox.com"
         }
     ],
+    "config": {
+        "platform": {
+            "php": "5.4.45"
+        }
+    },
     "require": {
         "php": ">=5.3",
         "nategood/httpful": "*"
