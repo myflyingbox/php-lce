@@ -17,7 +17,7 @@ class Connection
   );
     private $password;
 
-    public function __construct($login, $password, $env = 'staging', $version = '1')
+    public function __construct($login, $password, $env = 'staging', $version = '2')
     {
         if (!array_key_exists($env, $this->servers)) {
             throw new UnknownEnvironmentException($env.' is not a valid environment. Use "staging" or "production".');
