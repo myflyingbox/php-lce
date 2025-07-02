@@ -5,7 +5,7 @@
     "license" : "MIT",
     "type" : "library",
     "keywords" : [],
-    "version" : "0.0.3",
+    "version" : "0.0.4",
     "authors": [
         {
             "name" : "Florent Piteau",
@@ -18,15 +18,15 @@
     ],
     "config": {
         "platform": {
-            "php": "5.4.45"
+            "php": "8.1.33"
         }
     },
     "require": {
-        "php": ">=5.3",
-        "nategood/httpful": "*"
+        "php": ">=8.1",
+        "nategood/httpful": "1.0.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "^10.5"
     },
     "autoload": {
         "psr-0": { "Lce": "src/" }
