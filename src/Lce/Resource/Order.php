@@ -54,4 +54,11 @@ class Order extends Resource
 
         return $tracking;
     }
+
+    public function cancel()
+    {
+        $cancel = Lce::$connection->put('orders', $this->id, 'cancel');
+
+        return $cancel;
+    }
 }

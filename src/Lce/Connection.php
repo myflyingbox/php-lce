@@ -44,6 +44,14 @@ class Connection
         return $response;
     }
 
+    public function put($resource, $id = null, $action = null, $format = null, $params = null)
+    {
+        $uri = $this->base_uri($resource, $id, $action, $format);
+        $response = $this->request('put', $uri, $params, $format);
+
+        return $response;
+    }
+
     public function server()
     {
         return $this->servers[$this->env];
