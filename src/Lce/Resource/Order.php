@@ -54,4 +54,13 @@ class Order extends Resource
 
         return $tracking;
     }
+
+    // Static version of tracking method, to avoid requiring an extra API call to get the order first
+    public static function track($id)
+    {
+        $tracking = Lce::$connection->get('orders', $id, 'tracking');
+
+        return $tracking;
+    }
+
 }
