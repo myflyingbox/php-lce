@@ -7,21 +7,25 @@ use Lce\Exception\AccountDisabledException;
 
 class LceException extends \Exception
 {
-    public static function build($uri, $response)
-    {
-        $message = $uri.' | ';
-        if (property_exists($response->body, 'error')) {
-            $error = $response->body->error;
-            $message .= $error->message;
-            if (isset($error->details) && !empty($error->details)) {
-                $message .= ' '.implode(' ', $error->details);
-            }
-            $type = $error->type;
+  public static function build($uri, $response)
+  {
+    $message = $uri . ' | ';
+    if (property_exists($response->body, 'error')) {
+      $error = $response->body->error;
+      $message .= $error->message;
+      if (isset($error->details) && !empty($error->details)) {
+        if (is_array($error->details)) {
+          $message .= ' ' . implode(' ', $error->details);
         } else {
-            $message .= 'Unknown Error. Are you using the correct server ? protocol ? port ? : '.strtok($response->raw_headers, "\n");
-            $type = 'unknown';
+          $message .= ' ' . (string) $error->details;
         }
-        switch ($type) {
+      }
+      $type = $error->type;
+    } else {
+      $message .= 'Unknown Error. Are you using the correct server ? protocol ? port ? : ' . strtok($response->raw_headers, "\n");
+      $type = 'unknown';
+    }
+    switch ($type) {
       case 'access_denied':
         return new AccessDeniedException($message);
         break;
@@ -29,7 +33,7 @@ class LceException extends \Exception
         return new AccountDisabledException($message);
         break;
       default:
-       return new self($message);
+        return new self($message);
     }
-    }
+  }
 }
