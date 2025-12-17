@@ -9,20 +9,26 @@ use Lce\Exception\LceException;
 
 class Connection
 {
-    public $login, $version, $env, $application = 'php-lce', $application_version = '0.0.3';
+    public $login, $version, $env, $application = 'php-lce', $application_version = '0.0.5';
     public $servers = array(
     'development' => 'http://localhost:9000',
     'staging' => 'https://test.myflyingbox.com',
     'production' => 'https://api.myflyingbox.com'
   );
     private $password;
+    private $custom_server;
 
-    public function __construct($login, $password, $env = 'staging', $version = '2')
+    public function __construct($login, $password, $env = 'staging', $version = '2', $server = null)
     {
-        if (!array_key_exists($env, $this->servers)) {
-            throw new UnknownEnvironmentException($env.' is not a valid environment. Use "staging" or "production".');
+        if ($server !== null) {
+            $this->custom_server = $server;
+            $this->env = $env;
+        } else {
+            if (!array_key_exists($env, $this->servers)) {
+                throw new UnknownEnvironmentException($env.' is not a valid environment. Use "staging" or "production".');
+            }
+            $this->env = $env;
         }
-        $this->env = $env;
         $this->login = $login;
         $this->password = $password;
         $this->version = $version;
@@ -46,6 +52,9 @@ class Connection
 
     public function server()
     {
+        if ($this->custom_server !== null) {
+            return $this->custom_server;
+        }
         return $this->servers[$this->env];
     }
 

@@ -6,13 +6,13 @@ use Lce\Exception\LceException;
 
 class Lce
 {
-    const VERSION = '0.0.1-dev';
+    const VERSION = '0.0.5';
 
     public static $connection;
 
-    public static function configure($login, $password, $env = 'staging', $version = '1')
+    public static function configure($login, $password, $env = 'staging', $version = '2', $server = null)
     {
-        return self::$connection = new Connection($login, $password, $env, $version);
+        return self::$connection = new Connection($login, $password, $env, $version, $server);
     }
 
     public static function login()
