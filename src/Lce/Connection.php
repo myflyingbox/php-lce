@@ -62,7 +62,7 @@ class Connection
     {
         $method = constant('\Httpful\Http::'.strtoupper($method));
         try {
-            $template = \Httpful\Request::init($method)
+            $template = Request::init($method)
         ->authenticateWith($this->login, $this->password);
 
             if ($this->application) {
@@ -98,6 +98,9 @@ class Connection
           throw LceException::build($uri, $response);
       }
             if (!$format || $format == 'json') {
+                if (!is_object($response->body) || !property_exists($response->body, 'data')) {
+                    throw new LceException($uri . ' | Invalid JSON API response: missing "data" field (HTTP ' . $response->code . ').');
+                }
                 if (isset($response->body->count)) {
                     $count = $response->body->count;
                 }
