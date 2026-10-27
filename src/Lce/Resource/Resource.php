@@ -2,6 +2,7 @@
 
 namespace Lce\Resource;
 
+#[\AllowDynamicProperties]
 class Resource
 {
     public function __construct($params)
